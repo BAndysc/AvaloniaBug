@@ -1,0 +1,39 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:app="clr-namespace:AvaloniaApplication1"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="AvaloniaApplication1.MainWindow"
+        x:DataType="app:ViewModel"
+        Title="AvaloniaApplication1">
+    <DockPanel LastChildFill="True">
+        <Button DockPanel.Dock="Top" Click="Toggle">
+            Toggle between CheckBox and TextBox
+        </Button>
+        <ItemsControl Items="{CompiledBinding Items}" DockPanel.Dock="Top">
+            <ItemsControl.DataTemplates>
+                <app:DataTemplateSelector>
+                    <app:DataTemplateSelector.BoolTemplate>
+                        <DataTemplate x:DataType="app:ItemViewModel">
+                            <StackPanel DetachedFromLogicalTree="StyledElement_OnDetachedFromLogicalTree">
+                                <CheckBox IsChecked="{CompiledBinding Value, Converter={x:Static app:LongToBoolConverter.Instance}, Mode=TwoWay}"></CheckBox>
+                                <TextBlock Text="{CompiledBinding Value}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </app:DataTemplateSelector.BoolTemplate>
+                    <app:DataTemplateSelector.InputTemplate>
+                        <DataTemplate x:DataType="app:ItemViewModel">
+                            <StackPanel>
+                                <TextBox Text="{CompiledBinding Value}" />
+                                <TextBlock Text="{CompiledBinding Value}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </app:DataTemplateSelector.InputTemplate>
+                </app:DataTemplateSelector>
+            </ItemsControl.DataTemplates>
+        </ItemsControl>
+        <TextBlock DockPanel.Dock="Top">Log:</TextBlock>
+        <TextBox TextWrapping="WrapWithOverflow" Text="{CompiledBinding GlobalLog}" BorderThickness="0" AcceptsReturn="True" />
+    </DockPanel>
+</Window>
